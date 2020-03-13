@@ -1,0 +1,108 @@
+SWITCH: SW-01
+enable
+configure terminal
+hostname SW-01
+interface vlan 1
+ip address 192.168.0.254 255.255.255.0
+no shutdown
+exit
+ip default-gateway 192.168.0.0
+banner motd "ACESSO APENAS PARA PESSOAS AUTORIZADAS"
+line console 0
+password JOAO*console
+login
+exit
+enable secret JOAO*enable
+service password-encryption
+ip domain-name JoTa.local
+crypto key generate rsa general-key modulus 1024
+line vty 0 15
+transport input ssh
+password JOAO*vty
+login
+exit
+username JoTa.local privilege 15 secret JOAO*enable
+line console 0
+login local
+exit
+line vty 0 15
+login local
+exit
+exit
+wr
+
+SWITCH: SW-02
+enable
+configure terminal
+hostname SW-02
+interface vlan 1
+ip address 172.16.255.254 255.255.0.0
+no shutdown
+exit
+ip default-gateway 172.16.0.0
+banner motd "ACESSO APENAS PARA PESSOAS AUTORIZADAS"
+line console 0
+password JOAO*console
+login
+exit
+enable secret JOAO*enable
+service password-encryption
+ip domain-name JoTa.local
+crypto key generate rsa general-key modulus 1024
+line vty 0 15
+transport input ssh
+password JOAO*vty
+login
+exit
+username JoTa.local privilege 15 secret JOAO*enable
+line console 0
+login local
+exit
+line vty 0 15
+login local
+exit
+exit
+wr
+
+ROUTER: RT-01 
+enable
+configure terminal
+hostname RT-01
+interface g0/0
+ip address 192.168.0.1 255.255.255.0
+no shutdown
+exit
+interface g0/1
+ip address 172.16.0.1 255.255.0.0
+no shutdown
+exi
+banner motd "ACESSO APENAS PARA PESSOAS AUTORIZADAS"
+line console 0
+password JOAO*console
+login
+exit
+enable secret JOAO*enable
+service password-encryption
+ip domain-name JoTa.local
+crypto key generate rsa general-key modulus 1024
+line vty 0 15
+transport input ssh
+password JOAO*vty
+login
+exit
+username JoTa.local privilege 15 secret JOAO*enable
+line console 0
+login local
+exit
+line vty 0 15
+login local
+exit
+exit
+wr
+
+
+
+
+
+
+
